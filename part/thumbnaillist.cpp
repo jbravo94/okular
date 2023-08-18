@@ -702,6 +702,7 @@ void ThumbnailListPrivate::slotDelayTimeout()
     const int expectedWidth = q->viewport()->width() / 4;
     if (expectedWidth > 10) {
         m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth));
+        //Bookmark here
     } else {
         m_bookmarkOverlay = nullptr;
     }

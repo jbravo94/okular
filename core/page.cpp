@@ -854,6 +854,7 @@ bool PagePrivate::restoreLocalContents(const QDomNode &pageNode)
                 // get annotation from the dom element
                 Annotation *annotation = AnnotationUtils::createAnnotation(annotElement);
 
+                qCritical("3");
                 // append annotation to the list or show warning
                 if (annotation) {
                     m_doc->performAddPageAnnotation(m_number, annotation);

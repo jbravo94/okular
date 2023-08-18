@@ -1,0 +1,6 @@
+services:
+  okular:
+    image: okular:latest
+    volumes:
+      - '/home/johnny/Qt:/Qt'
+      - './:/okular'

@@ -234,6 +234,7 @@ public:
         }
         // create StampAnnotation from path
         else if (typeString == QLatin1String("Stamp")) {
+            qCritical("STAMP");
             Okular::StampAnnotation *sa = new Okular::StampAnnotation();
             ann = sa;
             sa->setStampIconName(iconName);

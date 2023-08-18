@@ -59,6 +59,7 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
                                             const Okular::NormalizedRect &crop,
                                             Okular::NormalizedPoint *viewPortPoint)
 {
+
     qreal dpr = destPainter->device()->devicePixelRatioF();
 
     /* Calculate the cropped geometry of the page */
@@ -183,8 +184,12 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
         }
         // append annotations inside limits to the un/buffered list
         if (canDrawAnnotations) {
+                        qCritical("TEST");
+
             for (Okular::Annotation *ann : page->m_annotations) {
                 int flags = ann->flags();
+
+                
 
                 if (flags & Okular::Annotation::Hidden) {
                     continue;
@@ -344,6 +349,7 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
 
         // 4B.3. highlight rects in page
         if (bufferedHighlights) {
+            qCritical("bufferedHighlights");
             // draw highlights that are inside the 'limits' paint region
             for (const auto &highlight : qAsConst(*bufferedHighlights)) {
                 const Okular::NormalizedRect &r = highlight.second;
@@ -365,6 +371,8 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
 
         // 4B.4. paint annotations [COMPOSITED ONES]
         if (bufferedAnnotations) {
+                        qCritical("bufferedAnnotations");
+
             // Albert: This is quite "heavy" but all the backImage that reach here are QImage::Format_ARGB32_Premultiplied
             // and have to be so that the QPainter::CompositionMode_Multiply works
             // we could also put a
@@ -509,6 +517,7 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
 
     /** 5 -- MIXED FLOW. Draw ANNOTATIONS [OPAQUE ONES] on ACTIVE PAINTER  **/
     if (unbufferedAnnotations) {
+        qCritical("unbufferedAnnotations");
         // iterate over annotations and paint AText, AGeom, AStamp
         QList<Okular::Annotation *>::const_iterator aIt = unbufferedAnnotations->constBegin(), aEnd = unbufferedAnnotations->constEnd();
         for (; aIt != aEnd; ++aIt) {
@@ -536,6 +545,9 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
             QRectF dInnerRect(innerRect.x() * dpr, innerRect.y() * dpr, innerRect.width() * dpr, innerRect.height() * dpr);
 
             Okular::Annotation::SubType type = a->subType();
+
+            qCritical("ANNOTATION");
+            //qCritical(type);
 
             // draw TextAnnotation
             if (type == Okular::Annotation::AText) {
@@ -587,6 +599,7 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
             }
             // draw StampAnnotation
             else if (type == Okular::Annotation::AStamp) {
+                qCritical("ANNOTATION");
                 Okular::StampAnnotation *stamp = (Okular::StampAnnotation *)a;
 
                 // get pixmap and alpha blend it if needed
@@ -604,6 +617,7 @@ void PagePainter::paintCroppedPageOnPainter(QPainter *destPainter,
             }
             // draw GeomAnnotation
             else if (type == Okular::Annotation::AGeom) {
+                qCritical("TESTET");
                 Okular::GeomAnnotation *geom = (Okular::GeomAnnotation *)a;
                 // check whether there's anything to draw
                 if (geom->style().width() || geom->geometricalInnerColor().isValid()) {
