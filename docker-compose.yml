@@ -1,6 +1,9 @@
 services:
   okular:
-    image: okular:latest
+    build: .
     volumes:
       - '/home/johnny/Qt:/Qt'
       - './:/okular'
+      - '/tmp/.X11-unix:/tmp/.X11-unix'
+    environment:
+      - DISPLAY=${DISPLAY}

@@ -3451,21 +3451,13 @@ QList<Okular::RegularAreaRect *> PageView::textSelections(const QPoint start, co
 
 void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
 {
-    QColor backColor = QColor(Qt::blue);
+    QColor backColor;
 
-    /*if (Okular::Settings::useCustomBackgroundColor()) {
+    if (Okular::Settings::useCustomBackgroundColor()) {
         backColor = Okular::Settings::backgroundColor();
     } else {
         backColor = viewport()->palette().color(QPalette::Dark);
-    }*/
-
-    QPixmap *m_bookmarkOverlay;
-    m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(200));
-
-    int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
-            
-    //p->drawPixmap(300 - pixW, -pixH / 8, *m_bookmarkOverlay);
-            
+    }  
 
     // create a region from which we'll subtract painted rects
     QRegion remainingArea(contentsRect);
@@ -3507,8 +3499,6 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
         p->fillRect(backRect, backColor);
     }
 
-    p->drawPixmap(300 - pixW, -pixH / 8, *m_bookmarkOverlay);
-
     // take outline and shadow into account when testing whether a repaint is necessary
     auto dpr = devicePixelRatioF();
     QRect checkRect = contentsRect;
@@ -3534,7 +3524,14 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
         p->save();
         p->translate(itemGeometry.left(), itemGeometry.top());
         
-        p->drawPixmap(300 - pixW, -pixH / 8, *m_bookmarkOverlay);
+        const int expectedWidth = itemGeometry.width() / 8;
+
+        QPixmap *m_bookmarkOverlay;
+        m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth));
+
+        int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
+
+        p->drawPixmap(expectedWidth - pixW, -pixH / 8, *m_bookmarkOverlay);
 
         // draw the page outline (black border and bottom-right shadow)
         if (!itemGeometry.contains(contentsRect)) {

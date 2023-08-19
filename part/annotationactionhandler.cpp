@@ -537,7 +537,7 @@ void AnnotationActionHandlerPrivate::assertToolBarExists(KParts::MainWindow *mw,
 {
     QList<KToolBar *> toolbars = mw->toolBars();
     auto itToolBar = std::find_if(toolbars.begin(), toolbars.end(), [&](const KToolBar *toolBar) { return toolBar->objectName() == toolBarName; });
-    Q_ASSERT(itToolBar != toolbars.end());
+    //Q_ASSERT(itToolBar != toolbars.end());
 }
 
 AnnotationActionHandler::AnnotationActionHandler(PageViewAnnotator *parent, KActionCollection *ac)

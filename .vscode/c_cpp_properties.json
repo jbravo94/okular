@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include/x86_64-linux-gnu/qt5/QtCore",
+                "/usr/include/x86_64-linux-gnu/qt5",
+                "/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+                "/usr/include/x86_64-linux-gnu/qt5/QtGui",
+                "/usr/include/KF5/KDELibs4Support/KDE",
+                "/usr/include/KF5/KXmlGui",
+                "/usr/include/KF5/KConfigWidgets",
+                "/usr/include/KF5/KConfigGui",
+                "/usr/include/KF5/KWidgetsAddons",
+                "/usr/include/KF5/KConfigCore",
+                "/usr/include/KF5/KIOGui",
+                "/usr/include/KF5/KI18n",
+                "/usr/include/KF5/KCoreAddons",
+                "/usr/include/KF5/KIOWidgets",
+                "/usr/include/KF5/KIO",
+                "/usr/include/x86_64-linux-gnu/qt5/QtXml"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "gnu++11",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
