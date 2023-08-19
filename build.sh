@@ -3,3 +3,6 @@
 # Run cmake from docker
 # make from docker and source and make install
 # run source and make install from host
+
+# auto refresh on bookmark event
+# create bookmark icon

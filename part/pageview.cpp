@@ -68,6 +68,7 @@
 #include "annotwindow.h"
 #include "colormodemenu.h"
 #include "core/annotations.h"
+#include "core/bookmarkmanager.h"
 #include "cursorwraphelper.h"
 #include "formwidgets.h"
 #include "gui/debug_ui.h"
@@ -3526,12 +3527,16 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
         
         const int expectedWidth = itemGeometry.width();
 
-        QPixmap *m_bookmarkOverlay;
-        m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth / 8));
+        const bool isBookmarked = document()->bookmarkManager()->isBookmarked(item->pageNumber());
 
-        int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
+        if (isBookmarked) {
+            QPixmap *m_bookmarkOverlay;
+            m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth / 8));
 
-        p->drawPixmap(expectedWidth - pixW, -pixH / 8, *m_bookmarkOverlay);
+            int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
+
+            p->drawPixmap(expectedWidth - pixW, -pixH / 8, *m_bookmarkOverlay);
+        }
 
         // draw the page outline (black border and bottom-right shadow)
         if (!itemGeometry.contains(contentsRect)) {
