@@ -3524,10 +3524,10 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
         p->save();
         p->translate(itemGeometry.left(), itemGeometry.top());
         
-        const int expectedWidth = itemGeometry.width() / 8;
+        const int expectedWidth = itemGeometry.width();
 
         QPixmap *m_bookmarkOverlay;
-        m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth));
+        m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth / 8));
 
         int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
 
