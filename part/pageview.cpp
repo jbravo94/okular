@@ -1496,7 +1496,9 @@ void PageView::notifyPageChanged(int pageNumber, int changedFlags)
 {
     // only handle pixmap / highlight changes notifies
     if (changedFlags & DocumentObserver::Bookmark) {
-        return;
+        if(!Okular::Settings::showBookmarkOnPage()) {
+            return;
+        }
     }
 
     if (changedFlags & DocumentObserver::Annotations) {
@@ -5419,7 +5421,7 @@ void PageView::slotFormChanged(int pageNumber)
 void PageView::slotBookmarksChanged(const QUrl &url)
 {
     qCritical("Triggered");
-    //PageView::slotRefreshPage();
+    PageView::slotRefreshPage();
 }
 
 void PageView::slotRefreshPage()
