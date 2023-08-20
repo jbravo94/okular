@@ -3525,40 +3525,43 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
         p->save();
         p->translate(itemGeometry.left(), itemGeometry.top());
         
-        const int expectedWidth = itemGeometry.width();
+        if (Okular::Settings::showBookmarkOnPage()) {
+            const bool isBookmarked = document()->bookmarkManager()->isBookmarked(item->pageNumber());
 
-        const bool isBookmarked = document()->bookmarkManager()->isBookmarked(item->pageNumber());
+            if (isBookmarked) {
+                const int expectedWidth = itemGeometry.width();
+                const int bookmarkWidth = expectedWidth / 8;
 
-        if (isBookmarked) {
-            const int bookmarkWidth = expectedWidth / 8;
+                QPixmap *m_bookmarkOverlay;
 
-            QPixmap *m_bookmarkOverlay;
+                if(Okular::Settings::enableBookmarkColor()) {
+                    m_bookmarkOverlay = new QPixmap(bookmarkWidth, bookmarkWidth);
+                    m_bookmarkOverlay->fill(Qt::transparent);
 
-            //m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(bookmarkWidth));
-            
+                    QPainter *painter = new QPainter(m_bookmarkOverlay);
+                    painter->setRenderHint(QPainter::Antialiasing);
+                    painter->scale(bookmarkWidth / 16, bookmarkWidth / 16);
 
-            m_bookmarkOverlay = new QPixmap(bookmarkWidth, bookmarkWidth);
-            m_bookmarkOverlay->fill(Qt::transparent);
+                    QPainterPath path;
+                    
+                    // Path based on KDE breeze bookmark svg: m4 2 v 12 l 4 -1.594 4 1.594 v -12 z
+                    path.moveTo(4, 2);
+                    path.lineTo(4, 14);
+                    path.lineTo(8, 12.406);
+                    path.lineTo(12, 14);
+                    path.lineTo(12, 2);
+                    path.closeSubpath();
 
-            QPainter *painter = new QPainter(m_bookmarkOverlay);
-            painter->setRenderHint(QPainter::Antialiasing);
-            painter->scale(bookmarkWidth / 16, bookmarkWidth / 16);
+                    painter->setBrush(Qt::red);
+                    painter->fillPath(path, painter->brush());
+                } else {
+                    m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(bookmarkWidth));
+                }
 
-            QPainterPath path;
-            // Path based on KDE breeze bookmark svg: m4 2 v 12 l 4 -1.594 4 1.594 v -12 z
-            path.moveTo(4, 2);
-            path.lineTo(4, 14);
-            path.lineTo(8, 12.406);
-            path.lineTo(12, 14);
-            path.lineTo(12, 2);
-            path.closeSubpath();
+                int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
 
-            painter->setBrush(Qt::red);
-            painter->fillPath(path, painter->brush());
-
-            int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
-
-            p->drawPixmap(expectedWidth - pixW, -pixH / 8, *m_bookmarkOverlay);
+                p->drawPixmap(expectedWidth - pixW, -pixH / 8, *m_bookmarkOverlay);
+            }
         }
 
         // draw the page outline (black border and bottom-right shadow)
