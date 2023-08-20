@@ -154,7 +154,6 @@ QDomElement AnnotationUtils::findChildElement(const QDomNode &parentNode, const 
 
 QRect AnnotationUtils::annotationGeometry(const Annotation *annotation, double scaleX, double scaleY)
 {
-    qCritical("ee2");
     const QRect rect = annotation->transformedBoundingRectangle().geometry((int)scaleX, (int)scaleY);
     if (annotation->subType() == Annotation::AText && (((TextAnnotation *)annotation)->textType() == TextAnnotation::Linked)) {
         // To be honest i have no clue of why the 24,24 is here, maybe to make sure it's not too small?
@@ -168,8 +167,6 @@ QRect AnnotationUtils::annotationGeometry(const Annotation *annotation, double s
 
 QPixmap AnnotationUtils::loadStamp(const QString &nameOrPath, int size, bool keepAspectRatio)
 {
-
-    qCritical("ee");
     const QString name = nameOrPath.toLower();
 
     static std::unique_ptr<QSvgRenderer> svgStampFile;

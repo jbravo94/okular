@@ -503,6 +503,8 @@ PageView::PageView(QWidget *parent, Okular::Document *document)
     connect(document, &Okular::Document::processMovieAction, this, &PageView::slotProcessMovieAction);
     connect(document, &Okular::Document::processRenditionAction, this, &PageView::slotProcessRenditionAction);
 
+    connect(document->bookmarkManager(), &Okular::BookmarkManager::bookmarksChanged, this, &PageView::slotBookmarksChanged);
+
     // schedule the welcome message
     QMetaObject::invokeMethod(this, "slotShowWelcome", Qt::QueuedConnection);
 }
@@ -3543,7 +3545,7 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
                     painter->scale(bookmarkWidth / 16, bookmarkWidth / 16);
 
                     QPainterPath path;
-                    
+
                     // Path based on KDE breeze bookmark svg: m4 2 v 12 l 4 -1.594 4 1.594 v -12 z
                     path.moveTo(4, 2);
                     path.lineTo(4, 14);
@@ -5412,6 +5414,12 @@ void PageView::slotFormChanged(int pageNumber)
         delay = 1000;
     }
     d->refreshTimer->start(delay);
+}
+
+void PageView::slotBookmarksChanged(const QUrl &url)
+{
+    qCritical("Triggered");
+    //PageView::slotRefreshPage();
 }
 
 void PageView::slotRefreshPage()

@@ -133,6 +133,7 @@ public Q_SLOTS:
     void slotAction(Okular::Action *action);
     void slotMouseUpAction(Okular::Action *action, Okular::FormField *form);
     void slotFormChanged(int pageNumber);
+    void slotBookmarksChanged(const QUrl &url); 
 
     void externalKeyPressEvent(QKeyEvent *e);
 

@@ -442,9 +442,6 @@ static Poppler::Annotation *createPopplerAnnotationFromOkularAnnotation(const Ok
 }
 void PopplerAnnotationProxy::notifyAddition(Okular::Annotation *okl_ann, int page)
 {
-
-        qCritical("ttttt2");
-
     QMutexLocker ml(mutex);
 
     Poppler::Page *ppl_page = ppl_doc->page(page);
@@ -918,7 +915,6 @@ static Okular::Annotation *createAnnotationFromPopplerAnnotation(const Poppler::
 {
     Okular::StampAnnotation *oStampAnn = new Okular::StampAnnotation();
 
-    qCritical("eee");
     oStampAnn->setStampIconName(popplerAnnotation->stampIconName());
 
     return oStampAnn;

@@ -731,8 +731,6 @@ Okular::Document::OpenResult PDFGenerator::init(QVector<Okular::Page *> &pagesVe
 
     annotationsOnOpenHash.clear();
 
-    qCritical("tes");
-
     loadPages(pagesVector, 0, false);
 
     // update the configuration
