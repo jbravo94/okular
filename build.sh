@@ -4,5 +4,5 @@
 # make from docker and source and make install
 # run source and make install from host
 
-# auto refresh on bookmark event
+# auto refresh on bookmark event => maybe connect observer
 # create bookmark icon
