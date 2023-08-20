@@ -3530,8 +3530,31 @@ void PageView::drawDocumentOnPainter(const QRect contentsRect, QPainter *p)
         const bool isBookmarked = document()->bookmarkManager()->isBookmarked(item->pageNumber());
 
         if (isBookmarked) {
+            const int bookmarkWidth = expectedWidth / 8;
+
             QPixmap *m_bookmarkOverlay;
-            m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(expectedWidth / 8));
+
+            //m_bookmarkOverlay = new QPixmap(QIcon::fromTheme(QStringLiteral("bookmarks")).pixmap(bookmarkWidth));
+            
+
+            m_bookmarkOverlay = new QPixmap(bookmarkWidth, bookmarkWidth);
+            m_bookmarkOverlay->fill(Qt::transparent);
+
+            QPainter *painter = new QPainter(m_bookmarkOverlay);
+            painter->setRenderHint(QPainter::Antialiasing);
+            painter->scale(bookmarkWidth / 16, bookmarkWidth / 16);
+
+            QPainterPath path;
+            // Path based on KDE breeze bookmark svg: m4 2 v 12 l 4 -1.594 4 1.594 v -12 z
+            path.moveTo(4, 2);
+            path.lineTo(4, 14);
+            path.lineTo(8, 12.406);
+            path.lineTo(12, 14);
+            path.lineTo(12, 2);
+            path.closeSubpath();
+
+            painter->setBrush(Qt::red);
+            painter->fillPath(path, painter->brush());
 
             int pixW = m_bookmarkOverlay->width(), pixH = m_bookmarkOverlay->height();
 
